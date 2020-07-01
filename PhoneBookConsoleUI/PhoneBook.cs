@@ -8,7 +8,7 @@ namespace PhoneBookConsoleUI
     static class PhoneBook
     {
         public static Dictionary<int, Contact> ContactList { get; set; }
-        private static int _key = 0;
+        private static int _key = 1;
 
         static PhoneBook()
         {
@@ -28,9 +28,10 @@ namespace PhoneBookConsoleUI
 
         internal static void GetAllContacts()
         {
-            foreach (var contact in ContactList)
+            var ordered = ContactList.OrderBy(x => x.Value.FirstName).ThenBy(x => x.Value.LastName);
+            foreach (var contact in ordered)
             {
-                ConsoleLogging.PrintContactInfo(contact.Value);
+                ConsoleLogging.PrintContactInfo(contact.Key, contact.Value);
             }
         }
 

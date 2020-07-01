@@ -21,10 +21,10 @@ namespace PhoneBookConsoleUI
             Console.WriteLine("5 - End Application");            
         }
 
-        internal static void PrintContactInfo(Contact c)
+        internal static void PrintContactInfo(int key, Contact c)
         {
-            Console.WriteLine($"Name: {c.FullName} Number: {c.PhoneNumber} Email: {c.EmailAddress}" +
-                $" Address:{c.Address} Date of Birth:{c.DOB.ToShortDateString()}");
+            Console.WriteLine($"Id: {key}| Name: {c.FullName}| Number: {c.PhoneNumber}| Email: {c.EmailAddress}|" +
+                $" Address:{c.Address}| Date of Birth:{c.DOB.ToShortDateString()}");
         }
 
         internal static void GetUserInformation(Contact c)
@@ -48,7 +48,11 @@ namespace PhoneBookConsoleUI
             Console.WriteLine("Which contact do you want to delete? Please enter the id!");
             PhoneBook.GetAllContacts();
 
-            int id = int.Parse(Console.ReadLine());
+            int id;
+            while (!int.TryParse(Console.ReadLine(),out id))
+            {
+                Console.WriteLine("Please try again, that was an improper format.");
+            }
 
             return id;
         }
