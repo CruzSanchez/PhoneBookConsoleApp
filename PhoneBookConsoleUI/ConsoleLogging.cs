@@ -39,8 +39,21 @@ namespace PhoneBookConsoleUI
             c.EmailAddress = Console.ReadLine();
             Console.WriteLine("\nPlease enter their address.");
             c.Address = Console.ReadLine();
+            c.DOB = GetContactDOB();
+        }
+
+        internal static DateTime GetContactDOB()
+        {
             Console.WriteLine("\nPlease enter their date of birth. ex: dd/mm/yyyy");
-            c.DOB = DateTime.Parse(Console.ReadLine());
+            DateTime dob;
+            while (!DateTime.TryParse(Console.ReadLine(), out dob))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("Invalid format please type the date of birth in any of the following format:");
+                Console.Write("dd/mm/yyyy");
+                Console.ResetColor();
+            }
+            return dob;
         }
 
         internal static int GetContactToDelete()

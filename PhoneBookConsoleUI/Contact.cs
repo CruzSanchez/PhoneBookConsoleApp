@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace PhoneBookConsoleUI
 {
     public class Contact
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public string FullName => $"{FirstName} {LastName}";
-        public string Address { get; set; }
-        public string EmailAddress { get; set; }
+        public string Address { get; set; } = string.Empty;
+        public string EmailAddress { get; set; } = string.Empty;
         public DateTime DOB { get; set; }
-        public string PhoneNumber { get; set; }
+
+        private string _phoneNumber = string.Empty;
+        public string PhoneNumber
+        {
+            get { return _phoneNumber; }
+            set { _phoneNumber = Regex.Replace(value, @"(\d{3})(\d{3})(\d{4})", "$1-$2-$3"); }
+        }
+
     }
 }
