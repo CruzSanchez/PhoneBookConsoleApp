@@ -29,45 +29,77 @@ namespace PhoneBookConsoleUI
 
         internal static void GetUserInformation(Contact c)
         {
-            Console.WriteLine("Please enter the contacts first name.");
-            c.FirstName = Console.ReadLine();
-            Console.WriteLine("\nPlease enter their last name.");
-            c.LastName = Console.ReadLine();
-            Console.WriteLine("\nPlease enter their telephone number.");
-            c.PhoneNumber = Console.ReadLine();
-            Console.WriteLine("\nPlease enter their email address.");
-            c.EmailAddress = Console.ReadLine();
-            Console.WriteLine("\nPlease enter their address.");
-            c.Address = Console.ReadLine();
-            c.DOB = GetContactDOB();
+            c.FirstName = GetContactInfo("first name");
+            c.LastName = GetContactInfo("last name");
+            c.PhoneNumber = GetContactInfo("phone number");
+            c.EmailAddress = GetContactInfo("email address");
+            c.Address = GetContactInfo("address");
+            c.DOB = GetContactInfo();
         }
 
-        internal static DateTime GetContactDOB()
+        private static string GetContactInfo(string infoToGet)
+        {
+            Console.WriteLine($"\nPlease enter their {infoToGet}.");
+            return Console.ReadLine();
+        }        
+
+        internal static DateTime GetContactInfo()
         {
             Console.WriteLine("\nPlease enter their date of birth. ex: dd/mm/yyyy");
             DateTime dob;
             while (!DateTime.TryParse(Console.ReadLine(), out dob))
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("Invalid format please type the date of birth in any of the following format:");
-                Console.Write("dd/mm/yyyy");
-                Console.ResetColor();
+                InvalidInputText("mm/dd/yyyy");
             }
             return dob;
         }
 
         internal static int GetContactToDelete()
         {
-            Console.WriteLine("Which contact do you want to delete? Please enter the id!");
+            Console.WriteLine("Which contact do you want to delete? Please select based on the id.");
             PhoneBook.GetAllContacts();
 
             int id;
-            while (!int.TryParse(Console.ReadLine(),out id))
+            id = GetIdSafely();
+
+            return id;
+        }
+
+        internal static int GetContactToUpdate()
+        {
+            Console.WriteLine("Which contact do you want to update? Please select based on the id.");
+            PhoneBook.GetAllContacts();
+
+            int id;
+            id = GetIdSafely();
+
+            return id;
+        }
+
+        private static int GetIdSafely()
+        {
+            int id;
+            while (!int.TryParse(Console.ReadLine(), out id))
             {
-                Console.WriteLine("Please try again, that was an improper format.");
+                InvalidInputText();
             }
 
             return id;
+        }
+
+        private static void InvalidInputText()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please try again, that was an invalid format.");
+            Console.ResetColor();
+        }
+
+        private static void InvalidInputText(string properFormat)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Please try again, that was an invalid format.");
+            Console.WriteLine($"This is the correct format: {properFormat}");
+            Console.ResetColor();
         }
 
         internal static void DeleteContactErrorText()
