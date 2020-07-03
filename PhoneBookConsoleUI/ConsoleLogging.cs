@@ -37,7 +37,7 @@ namespace PhoneBookConsoleUI
             c.DOB = GetContactInfo();
         }
 
-        private static string GetContactInfo(string infoToGet)
+        internal static string GetContactInfo(string infoToGet)
         {
             Console.WriteLine($"\nPlease enter their {infoToGet}.");
             return Console.ReadLine();
