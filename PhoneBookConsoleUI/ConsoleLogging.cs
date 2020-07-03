@@ -7,24 +7,33 @@ namespace PhoneBookConsoleUI
         internal static void IntroText()
         {
             Console.WriteLine("Welcome to your phone book!");
-            Console.WriteLine();
-            Console.WriteLine("What action would you like to perform?");
-            Console.WriteLine();
+            Console.WriteLine();            
+        }
+
+        internal static void FirstTimeText()
+        {
+            Console.WriteLine("Looks like it is your first time running this app!");
+            Console.WriteLine("Lets get you creating your first contact!");
+            Console.Write("Press enter to start. . .");
+            Console.ReadLine();
+            Console.Clear();
         }
 
         internal static void WhichActionText()
         {
+            Console.WriteLine("What action would you like to perform?");
+            Console.WriteLine();
             Console.WriteLine("1 - Create a contact");
             Console.WriteLine("2 - Read all contacts");
             Console.WriteLine("3 - Update a contact");
-            Console.WriteLine("4 - Delete a contact");            
-            Console.WriteLine("5 - End Application");            
+            Console.WriteLine("4 - Delete a contact");
+            Console.WriteLine("5 - End Application");
         }
 
         internal static void PrintContactInfo(int key, Contact c)
         {
-            Console.WriteLine($"Id: {key}| Name: {c.FullName}| Number: {c.PhoneNumber}| Email: {c.EmailAddress}|" +
-                $" Address:{c.Address}| Date of Birth:{c.DOB.ToShortDateString()}");
+            Console.WriteLine($"Id: {key} | Name: {c.FullName} | Number: {c.PhoneNumber} | Email: {c.EmailAddress} |" +
+                $" Address: {c.Address} | Date of Birth: {c.DOB.ToShortDateString()}");
         }
 
         internal static void GetUserInformation(Contact c)
@@ -41,7 +50,7 @@ namespace PhoneBookConsoleUI
         {
             Console.WriteLine($"\nPlease enter their {infoToGet}.");
             return Console.ReadLine();
-        }        
+        }
 
         internal static DateTime GetContactInfo()
         {
@@ -56,7 +65,11 @@ namespace PhoneBookConsoleUI
 
         internal static int GetContactToDelete()
         {
-            Console.WriteLine("Which contact do you want to delete? Please select based on the id.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Which contact do you want to delete? Please select based on the id. Press 0 if you " +
+                "want to go back to the main menu.");
+            Console.ResetColor();
+
             PhoneBook.GetAllContacts();
 
             int id;
@@ -67,7 +80,11 @@ namespace PhoneBookConsoleUI
 
         internal static int GetContactToUpdate()
         {
-            Console.WriteLine("Which contact do you want to update? Please select based on the id.");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Which contact do you want to update? Please select based on the id. Press 0 if you " +
+                "want to go back to the main menu.");
+            Console.WriteLine();
+            Console.ResetColor();
             PhoneBook.GetAllContacts();
 
             int id;
@@ -87,14 +104,14 @@ namespace PhoneBookConsoleUI
             return id;
         }
 
-        private static void InvalidInputText()
+        internal static void InvalidInputText()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please try again, that was an invalid format.");
             Console.ResetColor();
         }
 
-        private static void InvalidInputText(string properFormat)
+        internal static void InvalidInputText(string properFormat)
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Please try again, that was an invalid format.");
@@ -107,6 +124,32 @@ namespace PhoneBookConsoleUI
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("An error has occurred, cannot delete that contact. Try again!");
             Console.ResetColor();
+        }
+
+        internal static void ContactDoesNotExist()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Couldn't find that contact! Try again!");
+            Console.ResetColor();
+        }
+
+        internal static bool UpdateAgain()
+        {
+            Console.WriteLine("Update another property? y/n");
+            string yesOrNo = Console.ReadLine();
+            while (yesOrNo != "y" && yesOrNo != "n")
+            {
+                Console.WriteLine("Please enter \"y\" for yes or \"n\" for no");
+                yesOrNo = Console.ReadLine();
+            }
+            return yesOrNo == "y";
+        }
+
+        internal static void PressEnter()
+        {
+            Console.WriteLine();
+            Console.Write("Press enter to continue. . .");
+            Console.ReadLine();
         }
     }
 }
