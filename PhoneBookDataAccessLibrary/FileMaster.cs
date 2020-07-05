@@ -7,11 +7,12 @@ using System.Linq;
 
 namespace PhoneBookDataAccessLibrary
 {
-    public class FileMaster
+    public partial class FileMaster
     {
         private static string _filePath = $@"{Directory.GetCurrentDirectory()}/ContactList.json";
+        private static string _userFilePath = $@"{Directory.GetCurrentDirectory()}/Users.json";
 
-        public static Dictionary<int, ContactModel> ReadFile()
+        public static Dictionary<int, ContactModel> ReadContactFile()
         {
             Dictionary<int, ContactModel> contacts = new Dictionary<int, ContactModel>();
             int key = 0;
@@ -42,10 +43,34 @@ namespace PhoneBookDataAccessLibrary
             return contacts;
         }
 
-        public static void WriteFile(Dictionary<int, ContactModel> contactDictionary)
+        public static void WriteContactFile(Dictionary<int, ContactModel> contactDictionary)
         {
             var text = JsonConvert.SerializeObject(contactDictionary.Values, Formatting.Indented);
             File.WriteAllText(_filePath, text);
+        }
+        public static void ReadUserFile()
+        {
+            if (File.Exists(_filePath))
+            {
+                var text = File.ReadAllText(_filePath);
+                try
+                {
+                    var jArray = JArray.Parse(text);
+                    foreach (var token in jArray)
+                    {
+                        var user = JsonConvert.DeserializeObject<User>(token.ToString());
+                        
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+            else
+            {
+                File.Create(_filePath);
+            }
         }
     }
 }

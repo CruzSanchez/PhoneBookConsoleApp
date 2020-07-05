@@ -11,10 +11,18 @@ namespace PhoneBookConsoleUI
             Console.WriteLine();            
         }
 
-        internal static void FirstTimeText()
+        internal static void FirstTimeProfileText()
         {
             Console.WriteLine("Looks like it is your first time running this app!");
-            Console.WriteLine("Lets get you creating your first contact!");
+            Console.WriteLine("Lets get you a profile set up!");
+            Console.Write("Press enter to start. . .");
+            Console.ReadLine();
+            Console.Clear();
+        }
+        internal static void FirstTimeContactText()
+        {
+            Console.WriteLine("Looks like it is your first time running this app!");
+            Console.WriteLine("Lets get you a profile set up!");
             Console.Write("Press enter to start. . .");
             Console.ReadLine();
             Console.Clear();
@@ -152,6 +160,18 @@ namespace PhoneBookConsoleUI
             Console.WriteLine();
             Console.Write("Press enter to continue. . .");
             Console.ReadLine();
+        }
+        internal static void GetUserNameText()
+        {
+            Console.WriteLine();
+            Console.Write("Please enter your username: ");
+            Console.WriteLine();
+        }
+        internal static void GetPasswordText()
+        {
+            Console.WriteLine();
+            Console.Write("Please enter your password: ");
+            Console.WriteLine();
         }
     }
 }
