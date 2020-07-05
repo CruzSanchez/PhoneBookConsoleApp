@@ -2,28 +2,24 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using PhoneBookDataAccessLibrary;
 
 namespace PhoneBookConsoleUI
 {
     static class PhoneBook
     {
-        public static Dictionary<int, Contact> ContactList { get; set; }
-        private static int _key = 1;
+        public static Dictionary<int, ContactModel> ContactList { get; set; } = new Dictionary<int, ContactModel>();
 
-        static PhoneBook()
+        internal static void CreateContact(int key)
         {
-            ContactList = new Dictionary<int, Contact>();
-        }
-
-        internal static void CreateContact()
-        {
-            Contact contact = new Contact();
+            ContactModel contact = new ContactModel();
 
             ConsoleLogging.GetUserInformation(contact);
 
-            ContactList.TryAdd(_key, contact);
-
-            _key++;
+            while (!ContactList.TryAdd(++key, contact))
+            {
+                
+            }
         }
 
         internal static void GetAllContacts()
@@ -44,6 +40,33 @@ namespace PhoneBookConsoleUI
             }
         }
 
+        internal static void UpdateContact(int id)
+        {
+            if(id == 0)
+            {
+                return;
+            }
+            else if (ContactList.ContainsKey(id))
+            {
+                do
+                {
+                    Console.Clear();
+
+                    ContactModel c = GetContactFromList(id);
+                    ConsoleLogging.PrintContactInfo(id, c);
+
+                    Console.WriteLine("What do you want to update?");
+                    string propertyToUpdate = Console.ReadLine();
+                    UpdateProperty(c, propertyToUpdate);                    
+
+                } while (ConsoleLogging.UpdateAgain());
+            }
+            else
+            {
+                ConsoleLogging.ContactDoesNotExist();
+            }
+        }
+
         internal static void DeleteContact(int id)
         {
             if(id == 0)
@@ -60,36 +83,9 @@ namespace PhoneBookConsoleUI
             }
         }
 
-        internal static void UpdateContact(int id)
+        private static ContactModel GetContactFromList(int id)
         {
-            if(id == 0)
-            {
-                return;
-            }
-            else if (ContactList.ContainsKey(id))
-            {
-                do
-                {
-                    Console.Clear();
-
-                    Contact c = GetContactFromList(id);
-                    ConsoleLogging.PrintContactInfo(id, c);
-
-                    Console.WriteLine("What do you want to update?");
-                    string propertyToUpdate = Console.ReadLine();
-                    UpdateProperty(c, propertyToUpdate);                    
-
-                } while (ConsoleLogging.UpdateAgain());
-            }
-            else
-            {
-                ConsoleLogging.ContactDoesNotExist();
-            }
-        }
-
-        private static Contact GetContactFromList(int id)
-        {
-            Contact c;
+            ContactModel c;
             while (!ContactList.TryGetValue(id, out c))
             {
                 ConsoleLogging.ContactDoesNotExist();
@@ -98,7 +94,7 @@ namespace PhoneBookConsoleUI
             return c;
         }
 
-        private static void UpdateProperty(Contact c, string propertyToUpdate)
+        private static void UpdateProperty(ContactModel c, string propertyToUpdate)
         {
             switch (propertyToUpdate.ToLower())
             {

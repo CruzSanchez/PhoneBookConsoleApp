@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhoneBookDataAccessLibrary;
+using System;
 
 namespace PhoneBookConsoleUI
 {
@@ -8,12 +9,14 @@ namespace PhoneBookConsoleUI
         {
             ConsoleLogging.IntroText();
 
+            PhoneBook.ContactList = FileMaster.ReadFile();
+
             if (PhoneBook.ContactList.Count == 0)
             {
                 ConsoleLogging.FirstTimeText();
-                PhoneBook.CreateContact();
+                PhoneBook.CreateContact(0);
             }
-
+            
             Execute();
         }
 
@@ -31,7 +34,7 @@ namespace PhoneBookConsoleUI
                     case ConsoleKey.D1:
                     case ConsoleKey.NumPad1:
                         Console.Clear();
-                        PhoneBook.CreateContact();
+                        PhoneBook.CreateContact(PhoneBook.ContactList.Count);
                         ConsoleLogging.PressEnter();
                         break;
 
@@ -61,6 +64,7 @@ namespace PhoneBookConsoleUI
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
                         Console.Clear();
+                        FileMaster.WriteFile(PhoneBook.ContactList);
                         Console.WriteLine("Thank You!");
                         Environment.Exit(0);
                         break;

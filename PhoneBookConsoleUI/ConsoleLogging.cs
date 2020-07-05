@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PhoneBookDataAccessLibrary;
+using System;
 
 namespace PhoneBookConsoleUI
 {
@@ -30,13 +31,13 @@ namespace PhoneBookConsoleUI
             Console.WriteLine("5 - End Application");
         }
 
-        internal static void PrintContactInfo(int key, Contact c)
+        internal static void PrintContactInfo(int key, ContactModel c)
         {
             Console.WriteLine($"Id: {key} | Name: {c.FullName} | Number: {c.PhoneNumber} | Email: {c.EmailAddress} |" +
                 $" Address: {c.Address} | Date of Birth: {c.DOB.ToShortDateString()}");
         }
 
-        internal static void GetUserInformation(Contact c)
+        internal static void GetUserInformation(ContactModel c)
         {
             c.FirstName = GetContactInfo("first name");
             c.LastName = GetContactInfo("last name");
@@ -68,6 +69,7 @@ namespace PhoneBookConsoleUI
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Which contact do you want to delete? Please select based on the id. Press 0 if you " +
                 "want to go back to the main menu.");
+            Console.WriteLine();
             Console.ResetColor();
 
             PhoneBook.GetAllContacts();
