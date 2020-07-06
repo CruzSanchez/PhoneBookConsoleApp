@@ -1,5 +1,6 @@
 ﻿using PhoneBookDataAccessLibrary;
 using System;
+using System.Text;
 
 namespace PhoneBookConsoleUI
 {
@@ -15,6 +16,18 @@ namespace PhoneBookConsoleUI
                 ConsoleLogging.FirstTimeProfileText();
                 user = UserProfileSetup();
             }
+            else
+            {
+                if (LogIn(user))
+                {
+                    ConsoleLogging.WelcomeText(user.Username);
+                }
+                else
+                {
+                    ConsoleLogging.InvaildUser();
+                    Environment.Exit(1);
+                }
+            }
 
             PhoneBook.ContactList = FileMaster.ReadContactFile();
             if (PhoneBook.ContactList.Count == 0)
@@ -25,6 +38,24 @@ namespace PhoneBookConsoleUI
             }
             
             Execute(user);
+        }
+
+        private static bool LogIn(User user)
+        {
+            Console.WriteLine("Please log in.");
+
+            ConsoleLogging.UsernameLogin();
+
+            string potentialPassword = ConsoleLogging.PasswordLogin();
+            return CheckUserPassword(user.Password, potentialPassword);
+        }        
+
+        private static bool CheckUserPassword(string passwordFromFile, string possiblePassword)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(possiblePassword);
+            possiblePassword = Convert.ToBase64String(data);
+
+            return passwordFromFile == possiblePassword;
         }
 
         private static void Execute(User user)

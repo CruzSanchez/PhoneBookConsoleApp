@@ -19,6 +19,38 @@ namespace PhoneBookConsoleUI
             Console.ReadLine();
             Console.Clear();
         }
+
+        internal static void WelcomeText(string username)
+        {
+            Console.WriteLine($"Welcome back {username}.");
+        }
+
+        internal static void InvaildUser()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Invalid user. Terminating with an exit code of 1");
+            Console.ResetColor();
+            Console.ReadLine();
+        }
+
+        internal static void UsernameLogin()
+        {
+            Console.Write("Enter your username: ");
+            Console.ReadLine();
+        }
+        internal static string PasswordLogin()
+        {
+            Console.Write("Enter your password: ");
+            string potentialPassword = null;
+            while (true)
+            {
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                    break;
+                potentialPassword += key.KeyChar;
+            }
+            return potentialPassword;
+        }
         internal static void FirstTimeContactText()
         {
             Console.WriteLine("Looks like it is your first time running this app!");

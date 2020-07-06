@@ -7,7 +7,19 @@ namespace PhoneBookDataAccessLibrary
     public class User
     {
         public string Username { get; set; }
-        public string Password { get; set; }
+        private string _password = string.Empty;
+        public string Password 
+        {
+            get
+            {
+                return _password;
+            }
+            set 
+            {
+                byte[] data = Encoding.ASCII.GetBytes(value);
+                _password = Convert.ToBase64String(data);                
+            } 
+        }
 
         public void SetUserName()
         {
@@ -22,11 +34,7 @@ namespace PhoneBookDataAccessLibrary
                     break;
                 Password += key.KeyChar;
             }
-        }
-        public bool CheckUserPassword(string possiblePassword)
-        {
-            return Password == possiblePassword;
-        }
+        }        
     }
 
 }
