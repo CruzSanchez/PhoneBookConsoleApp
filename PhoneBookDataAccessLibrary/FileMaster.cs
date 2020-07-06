@@ -4,14 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace PhoneBookDataAccessLibrary
 {
-    public partial class FileMaster
+    public class FileMaster
     {
         private static string _filePath = $@"{Directory.GetCurrentDirectory()}/ContactList.json";
         private static string _userFilePath = $@"{Directory.GetCurrentDirectory()}/Users.json";
 
+        #region ContactsJSON
         public static Dictionary<int, ContactModel> ReadContactFile()
         {
             Dictionary<int, ContactModel> contacts = new Dictionary<int, ContactModel>();
@@ -48,21 +50,22 @@ namespace PhoneBookDataAccessLibrary
             var text = JsonConvert.SerializeObject(contactDictionary.Values, Formatting.Indented);
             File.WriteAllText(_filePath, text);
         }
-        public static void ReadUserFile()
+        #endregion
+
+        #region UsersJSON
+        public static User ReadUserFile()
         {
-            if (File.Exists(_filePath))
+            User user = null;
+
+            if (File.Exists(_userFilePath))
             {
-                var text = File.ReadAllText(_filePath);
+                var text = File.ReadAllText(_userFilePath);
                 try
                 {
-                    var jArray = JArray.Parse(text);
-                    foreach (var token in jArray)
-                    {
-                        var user = JsonConvert.DeserializeObject<User>(token.ToString());
-                        
-                    }
+                    var jObject = JObject.Parse(text);
+                    user = JsonConvert.DeserializeObject<User>(jObject.ToString());
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                 }
@@ -71,6 +74,13 @@ namespace PhoneBookDataAccessLibrary
             {
                 File.Create(_filePath);
             }
+            return user;
         }
+        public static void WriteUserFile(User user)
+        {
+            var text = JsonConvert.SerializeObject(user, Formatting.Indented);
+            File.WriteAllText(_userFilePath, text);
+        }
+        #endregion
     }
 }

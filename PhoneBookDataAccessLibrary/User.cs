@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PhoneBookConsoleUI
+namespace PhoneBookDataAccessLibrary
 {
-    static class User : IUser
+    public class User
     {
-        public static string UserName { get; private set; }
-        public static string Password { get; private set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
-        public static void SetUserName()
+        public void SetUserName()
         {
-            UserName = Console.ReadLine();
+            Username = Console.ReadLine();
         }
-        public static void SetUserPassword()
+        public void SetUserPassword()
         {
             while (true)
             {
@@ -23,7 +23,7 @@ namespace PhoneBookConsoleUI
                 Password += key.KeyChar;
             }
         }
-        public static bool CheckUserPassword(string possiblePassword)
+        public bool CheckUserPassword(string possiblePassword)
         {
             return Password == possiblePassword;
         }

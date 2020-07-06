@@ -7,23 +7,27 @@ namespace PhoneBookConsoleUI
     {
         static void Main(string[] args)
         {
-            ConsoleLogging.IntroText();            
+            ConsoleLogging.IntroText();
+
+            User user = FileMaster.ReadUserFile();
+            if (user == null)
+            {
+                ConsoleLogging.FirstTimeProfileText();
+                user = UserProfileSetup();
+            }
 
             PhoneBook.ContactList = FileMaster.ReadContactFile();
-
             if (PhoneBook.ContactList.Count == 0)
             {
-                ConsoleLogging.FirstTimeContactText();
-
-                UserProfileSetup();
+                ConsoleLogging.FirstTimeContactText();               
 
                 PhoneBook.CreateContact(0);
             }
             
-            Execute();
+            Execute(user);
         }
 
-        private static void Execute()
+        private static void Execute(User user)
         {
             int contactId;
             do
@@ -67,6 +71,7 @@ namespace PhoneBookConsoleUI
                     case ConsoleKey.D5:
                     case ConsoleKey.NumPad5:
                         Console.Clear();
+                        FileMaster.WriteUserFile(user);
                         FileMaster.WriteContactFile(PhoneBook.ContactList);
                         Console.WriteLine("Thank You!");
                         Environment.Exit(0);
@@ -75,12 +80,14 @@ namespace PhoneBookConsoleUI
 
             } while (true);
         }
-        private static void UserProfileSetup()
+        private static User UserProfileSetup()
         {
+            User u = new User();
             ConsoleLogging.GetUserNameText();
-            User.SetUserName();
+            u.SetUserName();
             ConsoleLogging.GetPasswordText();
-            User.SetUserPassword();
+            u.SetUserPassword();
+            return u;
         }
     }
 }
