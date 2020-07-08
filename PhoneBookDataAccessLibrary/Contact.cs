@@ -1,12 +1,13 @@
-﻿using PhoneBookDataAccessLibrary;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PhoneBookConsoleUI
+namespace PhoneBookDataAccessLibrary
 {
-    public class Contact : IContact
-    {        
+    public class Contact
+    {
+        public int id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string FullName => $"{FirstName} {LastName}";

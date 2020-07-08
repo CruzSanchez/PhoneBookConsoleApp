@@ -11,9 +11,9 @@ namespace PhoneBookDataAccessLibrary
     {
         private static string _filePath = $@"{Directory.GetCurrentDirectory()}/ContactList.json";
 
-        public static Dictionary<int, ContactModel> ReadFile()
+        public static Dictionary<int, Contact> ReadFile()
         {
-            Dictionary<int, ContactModel> contacts = new Dictionary<int, ContactModel>();
+            Dictionary<int, Contact> contacts = new Dictionary<int, Contact>();
             int key = 0;
 
             if (File.Exists(_filePath))
@@ -25,7 +25,7 @@ namespace PhoneBookDataAccessLibrary
                     foreach (var token in jArray)
                     {
                         ++key;
-                        var contact = JsonConvert.DeserializeObject<ContactModel>(token.ToString());
+                        var contact = JsonConvert.DeserializeObject<Contact>(token.ToString());
                         contacts.Add(key, contact);
                     }
                 }
@@ -42,7 +42,7 @@ namespace PhoneBookDataAccessLibrary
             return contacts;
         }
 
-        public static void WriteFile(Dictionary<int, ContactModel> contactDictionary)
+        public static void WriteFile(Dictionary<int, Contact> contactDictionary)
         {
             var text = JsonConvert.SerializeObject(contactDictionary.Values, Formatting.Indented);
             File.WriteAllText(_filePath, text);

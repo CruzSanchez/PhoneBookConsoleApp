@@ -3,6 +3,7 @@ using Dapper.Contrib.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 
 namespace PhoneBookDataAccessLibrary
@@ -16,23 +17,24 @@ namespace PhoneBookDataAccessLibrary
             _conn = conn;
         }
 
-        public IEnumerable<ContactModel> GetAllContacts()
+        public Dictionary<int, Contact> GetAllContacts()
         {
-            return _conn.GetAll<ContactModel>();
+            var contacts = _conn.GetAll<Contact>();
+            return contacts.ToDictionary(c => c.id);
         }
-        public ContactModel GetContact(int id)
+        public Contact GetContact(int id)
         {
-            return _conn.Get<ContactModel>(id);
+            return _conn.Get<Contact>(id);
         }
-        public void CreateContact(ContactModel contact)
+        public void CreateContact(Contact contact)
         {
             _conn.Insert(contact);
         }
-        public void UpdateContact(ContactModel contact)
+        public void UpdateContact(Contact contact)
         {
             _conn.Update(contact);
         }
-        public void DeleteContact(ContactModel contact)
+        public void DeleteContact(Contact contact)
         {
             _conn.Delete(contact);
         }

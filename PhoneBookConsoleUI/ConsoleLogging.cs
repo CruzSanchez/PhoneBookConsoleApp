@@ -11,6 +11,15 @@ namespace PhoneBookConsoleUI
             Console.WriteLine();            
         }
 
+        internal static string ChooseDataLocation()
+        {
+            Console.WriteLine("Where would you like to read data from? Database or JSON file?");
+            Console.WriteLine("Note these 2 will always be seperate from each other,\n" +
+                " changes in one location will not be reflected in the other.");
+
+            return Console.ReadLine();
+        }
+
         internal static void FirstTimeText()
         {
             Console.WriteLine("Looks like it is your first time running this app!");
@@ -31,13 +40,13 @@ namespace PhoneBookConsoleUI
             Console.WriteLine("5 - End Application");
         }
 
-        internal static void PrintContactInfo(int key, ContactModel c)
+        internal static void PrintContactInfo(int key, Contact c)
         {
             Console.WriteLine($"Id: {key} | Name: {c.FullName} | Number: {c.PhoneNumber} | Email: {c.EmailAddress} |" +
                 $" Address: {c.Address} | Date of Birth: {c.DOB.ToShortDateString()}");
         }
 
-        internal static void GetUserInformation(ContactModel c)
+        internal static void GetUserInformation(Contact c)
         {
             c.FirstName = GetContactInfo("first name");
             c.LastName = GetContactInfo("last name");

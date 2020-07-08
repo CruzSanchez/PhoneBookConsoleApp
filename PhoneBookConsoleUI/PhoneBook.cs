@@ -8,11 +8,11 @@ namespace PhoneBookConsoleUI
 {
     static class PhoneBook
     {
-        public static Dictionary<int, ContactModel> ContactList { get; set; } = new Dictionary<int, ContactModel>();
+        public static Dictionary<int, Contact> ContactList { get; set; } = new Dictionary<int, Contact>();
 
         internal static void CreateContact(int key)
         {
-            ContactModel contact = new ContactModel();
+            Contact contact = new Contact();
 
             ConsoleLogging.GetUserInformation(contact);
 
@@ -52,7 +52,7 @@ namespace PhoneBookConsoleUI
                 {
                     Console.Clear();
 
-                    ContactModel c = GetContactFromList(id);
+                    Contact c = GetContactFromList(id);
                     ConsoleLogging.PrintContactInfo(id, c);
 
                     Console.WriteLine("What do you want to update?");
@@ -83,9 +83,9 @@ namespace PhoneBookConsoleUI
             }
         }
 
-        private static ContactModel GetContactFromList(int id)
+        private static Contact GetContactFromList(int id)
         {
-            ContactModel c;
+            Contact c;
             while (!ContactList.TryGetValue(id, out c))
             {
                 ConsoleLogging.ContactDoesNotExist();
@@ -94,7 +94,7 @@ namespace PhoneBookConsoleUI
             return c;
         }
 
-        private static void UpdateProperty(ContactModel c, string propertyToUpdate)
+        private static void UpdateProperty(Contact c, string propertyToUpdate)
         {
             switch (propertyToUpdate.ToLower())
             {

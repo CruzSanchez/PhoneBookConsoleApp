@@ -4,10 +4,10 @@ namespace PhoneBookDataAccessLibrary
 {
     public interface IContactRepository
     {
-        void CreateContact(ContactModel contact);
-        void DeleteContact(ContactModel contact);
-        IEnumerable<ContactModel> GetAllContacts();
-        ContactModel GetContact(int id);
-        void UpdateContact(ContactModel contact);
+        void CreateContact(Contact contact);
+        void DeleteContact(Contact contact);
+        Dictionary<int, Contact> GetAllContacts();
+        Contact GetContact(int id);
+        void UpdateContact(Contact contact);
     }
 }
